@@ -1,0 +1,21 @@
+{
+  "name": "typescript_to_c",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "SJ",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^10.5.0",
+    "libpq": "^1.11.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^7.0.2"
+  }
+}
