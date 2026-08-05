@@ -9,7 +9,7 @@ import { spawn } from "node:child_process";
 // const writeStream = openFile.createWriteStream();
 
 const PARSER_BINARY = "./parser";
-const writeAmount = 10;
+const writeAmount = 100_000;
 
 function sanitizeText(value: string) {
   return value.replace(/\'|,|-|_/g, "");
@@ -54,7 +54,13 @@ async function runBulkLoad() {
   const exitPromise = new Promise((resolve, reject) => {
     (child.on("error", reject),
       //Node's close event gives you code = null so we use "?? -1" to quietly turn that null into -1 because
-      child.on("close", (code) => resolve(code ?? -1)));
+      child.on("close", (code, signal) => {
+        if (signal) {
+          reject(new Error(`parser was killed by signal: ${signal}`));
+        } else {
+          resolve(code ?? -1);
+        }
+      }));
   });
 
   try {
