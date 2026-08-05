@@ -45,7 +45,7 @@ async function runBulkLoad() {
     env: { ...process.env },
   });
 
-  //Check C parser for any communication cdotenv from "dotenv"oming through
+  //Check C parser for any communication  coming through
   child.stdout.on("data", (chunk) => process.stdout.write(`[parser] ${chunk}`));
   child.stderr.on("data", (chunk) =>
     process.stderr.write(`[parser:err] ${chunk}`),
