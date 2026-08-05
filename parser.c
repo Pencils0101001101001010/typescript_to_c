@@ -6,22 +6,16 @@
 
 
 struct book {
-    
     char title[51];
     char author[51];
     char publisher[51];
     char genre[51];
 };
-// # 1. Compile the program using PostgreSQL directory maps
-// gcc -I$(pg_config --includedir) -L$(pg_config --libdir) parser.c -lpq -o parser
-
-// # 2. Inject your environment variables and execute the binary
-// export $(grep -v '^#' .env | xargs) && ./parser
+ 
 
 
 int main() {
-    //the commented out part involving fptr is for the c loader to do its thing for a physical file
-    // FILE *fptr;
+    
     struct book current_book;
     const char *conninfo = "";
 
@@ -45,18 +39,15 @@ int main() {
          return 1;
         }
     PQclear(copy_res);
-    //physical file method
-    // fptr = fopen("./books.csv", "r");
+    
 
     // Store the content of the file
     char myString[1024];
 
-    // If the file exist
-    // if(fptr != NULL) {
+   
   
     // Read the content and print it
     while(fgets(myString, sizeof(myString), stdin)) {
-        // char *id_str = strtok(myString, ",");
         char *title_str = strtok(myString, ",");
         char *author_str = strtok(NULL, ",");
         char *publisher_str = strtok(NULL, ",");
@@ -66,12 +57,8 @@ int main() {
         if( title_str == NULL || author_str == NULL || publisher_str == NULL || genre_str == NULL ){
              fprintf(stderr ,"Book info was incomplete\n");
             continue;
-        }
-        
-
-        // current_book.id = atoi(id_str);
-        // strncpy(current_book.id, id_str, 50);
-        // current_book.title[50] = '\0';
+        } 
+         
         //char *strncpy(char *dest, const char *src, size_t n);
         //dest: A pointer to the destination array where the content is to be copied.
         // src: A pointer to the source string to be copied.
@@ -88,7 +75,7 @@ int main() {
         strncpy(current_book.genre, genre_str, 50);
         current_book.genre[50] = '\0';
         //test:
-        // printf("ID: %d, Title: %s, Author: %s\n", current_book.id, current_book.title, current_book.author);
+        // printf(" Title: %s, Author: %s\n", current_book.id, current_book.title, current_book.author);
 
         char csv_buffer[256];
 
@@ -100,25 +87,17 @@ int main() {
      // Send the termination signal down the pipeline
      PQputCopyEnd(conn, NULL);
     
-      // Fetch the transaction processing result back from the server
-    PGresult *final_res = PQgetResult(conn);
+     // Fetch the transaction processing result back from the server
+     PGresult *final_res = PQgetResult(conn);
 
-    // Confirm that everything saved successfully
-    if (PQresultStatus(final_res) != PGRES_COMMAND_OK) {
+     // Confirm that everything saved successfully
+     if (PQresultStatus(final_res) != PGRES_COMMAND_OK) {
         fprintf(stderr, "Postgres COPY processing failed: %s\n", PQerrorMessage(conn));
-    } else {
+     } else {
         printf("Successfully loaded rows into the database!\n");
-    }
-    PQclear(final_res);
-    // If the file does not exist 
-    // } else {
-    //     printf("Not able to open the file.");
-    // }
-
-   
-    // free(myString);
-    PQfinish(conn);
-    return 0;
-
-
+     }
+   PQclear(final_res);
+    
+ PQfinish(conn);
+ return 0;
 }

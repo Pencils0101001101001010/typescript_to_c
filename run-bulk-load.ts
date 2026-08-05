@@ -3,11 +3,6 @@ import { pipeline } from "node:stream/promises";
 import { faker } from "@faker-js/faker";
 import { spawn } from "node:child_process";
 
-//This commented code is for a physical file in the root directory
-// const fileDir = "./books.csv";
-// const openFile = await fs.open(fileDir, "w");
-// const writeStream = openFile.createWriteStream();
-
 const PARSER_BINARY = "./parser";
 const writeAmount = 1;
 
