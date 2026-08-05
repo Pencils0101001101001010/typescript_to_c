@@ -5,13 +5,15 @@
   "license": "ISC",
   "author": "SJ",
   "type": "module",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "@faker-js/faker": "^10.5.0",
-    "libpq": "^1.11.0"
+    "dotenv": "^17.4.2",
+    "libpq": "^1.11.0",
+    "pg": "^8.22.0"
   },
   "devDependencies": {
     "@types/node": "^26.1.2",

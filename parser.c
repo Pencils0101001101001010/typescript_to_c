@@ -20,7 +20,8 @@ struct book {
 
 
 int main() {
-    FILE *fptr;
+    //the commented out part involving fptr is for the c loader to do its thing for a physical file
+    // FILE *fptr;
     struct book current_book;
     const char *conninfo = "";
 
@@ -44,17 +45,17 @@ int main() {
          return 1;
         }
     PQclear(copy_res);
-
-    fptr = fopen("./books.csv", "r");
+    //physical file method
+    // fptr = fopen("./books.csv", "r");
 
     // Store the content of the file
     char myString[1024];
 
     // If the file exist
-    if(fptr != NULL) {
+    // if(fptr != NULL) {
   
     // Read the content and print it
-    while(fgets(myString, sizeof(myString), fptr)) {
+    while(fgets(myString, sizeof(myString), stdin)) {
         char *id_str = strtok(myString, ",");
         char *title_str = strtok(NULL, ",");
         char *author_str = strtok(NULL, ",");
@@ -110,9 +111,9 @@ int main() {
     }
     PQclear(final_res);
     // If the file does not exist 
-    } else {
-        printf("Not able to open the file.");
-    }
+    // } else {
+    //     printf("Not able to open the file.");
+    // }
 
    
     // free(myString);
