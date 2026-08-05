@@ -6,7 +6,7 @@
 
 
 struct book {
-    int32_t id;
+    
     char title[51];
     char author[51];
     char publisher[51];
@@ -36,7 +36,7 @@ int main() {
     printf("Database connected successfully!\n");
 
     PGresult *copy_res = PQexec(conn, 
-    "COPY books (id, title, author, publisher, genre) FROM STDIN WITH (FORMAT CSV)");
+    "COPY books ( title, author, publisher, genre) FROM STDIN WITH (FORMAT CSV)");
 
     if (PQresultStatus(copy_res) != PGRES_COPY_IN) {
          fprintf(stderr, "Failed to initiate COPY: %s\n", PQerrorMessage(conn));
@@ -56,20 +56,20 @@ int main() {
   
     // Read the content and print it
     while(fgets(myString, sizeof(myString), stdin)) {
-        char *id_str = strtok(myString, ",");
-        char *title_str = strtok(NULL, ",");
+        // char *id_str = strtok(myString, ",");
+        char *title_str = strtok(myString, ",");
         char *author_str = strtok(NULL, ",");
         char *publisher_str = strtok(NULL, ",");
         char *genre_str = strtok(NULL, ",\n");
 
 
-        if(id_str == NULL || title_str == NULL || author_str == NULL || publisher_str == NULL || genre_str == NULL ){
+        if( title_str == NULL || author_str == NULL || publisher_str == NULL || genre_str == NULL ){
              fprintf(stderr ,"Book info was incomplete\n");
             continue;
         }
         
 
-        current_book.id = atoi(id_str);
+        // current_book.id = atoi(id_str);
         // strncpy(current_book.id, id_str, 50);
         // current_book.title[50] = '\0';
         //char *strncpy(char *dest, const char *src, size_t n);
@@ -92,7 +92,7 @@ int main() {
 
         char csv_buffer[256];
 
-        snprintf(csv_buffer, sizeof(csv_buffer), "%d,%s,%s,%s,%s\n", current_book.id, current_book.title, current_book.author, current_book.publisher, current_book.genre);
+        snprintf(csv_buffer, sizeof(csv_buffer), "%s,%s,%s,%s\n",  current_book.title, current_book.author, current_book.publisher, current_book.genre);
 
         PQputCopyData(conn, csv_buffer, strlen(csv_buffer));
     }

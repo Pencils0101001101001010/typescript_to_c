@@ -22,7 +22,6 @@ function sanitizeText(value: string) {
 async function* generateRows() {
   for (let i = 0; i < writeAmount; i++) {
     const book = {
-      id: i,
       title: sanitizeText(faker.book.title()),
       author: sanitizeText(faker.book.author()),
       publisher: sanitizeText(faker.book.publisher()),
@@ -33,7 +32,7 @@ async function* generateRows() {
     // How it behaves: Every time pipeline() asks for data, the function runs until it hits yield.
     // It passes the  value out, pauses its state (saving all loop variables like i), and waits.
     // When pipeline is ready for the next row, the function wakes up right where it left off
-    yield `${book.id},${book.title},${book.author},${book.publisher},${book.genre}\n`;
+    yield `${book.title},${book.author},${book.publisher},${book.genre}\n`;
   }
 }
 
@@ -54,6 +53,7 @@ async function runBulkLoad() {
 
   const exitPromise = new Promise((resolve, reject) => {
     (child.on("error", reject),
+      //Node's close event gives you code = null so we use "?? -1" to quietly turn that null into -1 because
       child.on("close", (code) => resolve(code ?? -1)));
   });
 
@@ -64,7 +64,7 @@ async function runBulkLoad() {
     if (exitCode !== 0) {
       throw new Error(`parser exited with non-zero code: ${exitCode}`);
     }
-    console.log("Loaded successfully.");
+    console.log("Whoopy you done.");
   } catch (err) {
     console.error("Pipeline failed:", err);
     child.kill();
