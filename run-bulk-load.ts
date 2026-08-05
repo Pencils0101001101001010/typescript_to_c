@@ -9,7 +9,7 @@ import { spawn } from "node:child_process";
 // const writeStream = openFile.createWriteStream();
 
 const PARSER_BINARY = "./parser";
-const writeAmount = 100_000;
+const writeAmount = 1;
 
 function sanitizeText(value: string) {
   return value.replace(/\'|,|-|_/g, "");
