@@ -4,7 +4,7 @@ import { faker } from "@faker-js/faker";
 import { spawn } from "node:child_process";
 
 const PARSER_BINARY = "./parser";
-const writeAmount = 1;
+const writeAmount = 100_000;
 
 function sanitizeText(value: string) {
   return value.replace(/\'|,|-|_/g, "");
